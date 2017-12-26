@@ -18,9 +18,17 @@ joy.registerJoystickCallback(joystickCallback);
 joy.registerButtonCallback(buttonCallback);
 ```
 
-Joystick callback gets called with parameters x and y representing the coordinates (-128...128).
+Update is performed in the loop() function by calling
+
+```
+joy.update();
+```
+
 
 ### Callback
+
+Joystick callback gets called with parameters x and y representing the coordinates (-128...128).
+
 
 ```
 void joystickCallback(int8_t x, int8_t y)
