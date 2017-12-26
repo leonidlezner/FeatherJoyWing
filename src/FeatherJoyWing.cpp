@@ -40,13 +40,13 @@ bool FeatherJoyWing::begin()
 
 bool FeatherJoyWing::update()
 {
-    static int16_t last_x = 0, last_y = 0;
+    static int8_t last_x = 0, last_y = 0;
 
     if(NULL != this->joystickCallback)
     {
-        // x: -128...0...128. y: 128...0...-128
-        int16_t x = ss.analogRead(JOYSTICK_H) / 4 - 128;
-        int16_t y = 128 - ss.analogRead(JOYSTICK_V) / 4;
+        // x: -128...0...127. y: 127...0...-128
+        int8_t x = ss.analogRead(JOYSTICK_H) / 4 - 128;
+        int8_t y = 127 - ss.analogRead(JOYSTICK_V) / 4;
 
         if(abs(x) < this->joystick_zero_threshold)
         {
