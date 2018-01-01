@@ -8,14 +8,15 @@
 #endif
 
 #define FJ_NUM_OF_BUTTONS   5
+
 #define BUTTON_RIGHT        6
 #define BUTTON_DOWN         7
 #define BUTTON_LEFT         9
 #define BUTTON_UP           10
 #define BUTTON_SEL          14
 
-#define JOYSTICK_H      3
-#define JOYSTICK_V      2
+#define JOYSTICK_H          3
+#define JOYSTICK_V          2
 
 #ifndef FEATHERJOYWING_IRQ_PIN
 #define FEATHERJOYWING_IRQ_PIN         6
@@ -37,6 +38,7 @@ class FeatherJoyWing
         FeatherJoyWing(Adafruit_seesaw &ss);
         ~FeatherJoyWing() {};
         bool begin();
+        bool begin(uint32_t irq_pin, uint8_t joywing_address);
         bool update();
         void registerJoystickCallback(featherjoywing_joystick_callback callback) { this->joystickCallback = callback; };
         void registerButtonCallback(featherjoywing_button_callback callback) { this->buttonCallback = callback; };

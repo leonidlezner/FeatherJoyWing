@@ -21,11 +21,10 @@ FeatherJoyWing::FeatherJoyWing(Adafruit_seesaw &seasaw):
     buttons[4].pinId = BUTTON_SEL;
 }
 
-bool FeatherJoyWing::begin()
+bool FeatherJoyWing::begin(uint32_t irq_pin, uint8_t joywing_address)
 {
-    if (!this->ss.begin(JOYWING_ADDRESS))
+    if (!this->ss.begin(joywing_address))
     {
-        Serial.println("JOYWING ERROR!");
         return false;
     }
 
@@ -33,9 +32,14 @@ bool FeatherJoyWing::begin()
 
     this->ss.setGPIOInterrupts(FeatherJoyWing_Button_Mask, true);
     
-    pinMode(FEATHERJOYWING_IRQ_PIN, INPUT);
+    pinMode(irq_pin, INPUT);
 
     return true;
+}
+
+bool FeatherJoyWing::begin()
+{
+    return this->begin(FEATHERJOYWING_IRQ_PIN, JOYWING_ADDRESS);
 }
 
 bool FeatherJoyWing::update()
