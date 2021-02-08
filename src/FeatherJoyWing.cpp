@@ -23,6 +23,8 @@ FeatherJoyWing::FeatherJoyWing(Adafruit_seesaw &seasaw):
 
 bool FeatherJoyWing::begin(uint32_t irq_pin, uint8_t joywing_address)
 {
+    this->irq_pin = irq_pin;
+
     if (!this->ss.begin(joywing_address))
     {
         return false;
@@ -74,8 +76,7 @@ bool FeatherJoyWing::update()
 
     if(NULL != this->buttonCallback)
     {
-
-        if(!digitalRead(FEATHERJOYWING_IRQ_PIN))
+        if(!digitalRead(irq_pin))
         {
             uint32_t buttons_state = this->ss.digitalReadBulk(FeatherJoyWing_Button_Mask);
             

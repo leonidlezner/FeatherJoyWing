@@ -49,6 +49,7 @@ class FeatherJoyWing
         featherjoywing_joystick_callback joystickCallback;
         featherjoywing_button_callback buttonCallback;
         FJBUTTON buttons[FJ_NUM_OF_BUTTONS];
+        uint32_t irq_pin;
 };
 
 #endif
