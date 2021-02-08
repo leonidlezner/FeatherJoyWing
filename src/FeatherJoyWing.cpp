@@ -5,9 +5,9 @@ static uint32_t FeatherJoyWing_Button_Mask = (1 << BUTTON_RIGHT) | (1 << BUTTON_
 
 
 FeatherJoyWing::FeatherJoyWing(Adafruit_seesaw &seasaw):
-    ss(seasaw), joystickCallback(NULL), buttonCallback(NULL),
     joystick_zero_threshold(5), joystick_react_threshold(2),
-    last_x(0), last_y(0)
+    ss(seasaw), joystickCallback(NULL), buttonCallback(NULL),
+    last_x(0), last_y(0), irq_pin(0)
 {
     for(int i = 0; i < FJ_NUM_OF_BUTTONS; i++)
     {
