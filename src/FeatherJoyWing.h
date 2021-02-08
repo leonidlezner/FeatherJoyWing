@@ -42,12 +42,12 @@ class FeatherJoyWing
         bool update();
         void registerJoystickCallback(featherjoywing_joystick_callback callback) { this->joystickCallback = callback; };
         void registerButtonCallback(featherjoywing_button_callback callback) { this->buttonCallback = callback; };
+        uint8_t joystick_zero_threshold;
+        uint8_t joystick_react_threshold;
     private:
         Adafruit_seesaw &ss;
         featherjoywing_joystick_callback joystickCallback;
         featherjoywing_button_callback buttonCallback;
-        uint8_t joystick_zero_threshold;
-        uint8_t joystick_react_threshold;
         FJBUTTON buttons[FJ_NUM_OF_BUTTONS];
 };
 
