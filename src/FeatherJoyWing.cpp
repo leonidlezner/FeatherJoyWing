@@ -6,6 +6,7 @@ static uint32_t FeatherJoyWing_Button_Mask = (1 << BUTTON_RIGHT) | (1 << BUTTON_
 
 FeatherJoyWing::FeatherJoyWing(Adafruit_seesaw &seasaw):
     joystick_zero_threshold(5), joystick_react_threshold(2),
+    joystick_x_correction(0), joystick_y_correction(0),
     ss(seasaw), joystickCallback(NULL), buttonCallback(NULL),
     last_x(0), last_y(0), irq_pin(0)
 {
@@ -45,8 +46,8 @@ bool FeatherJoyWing::update()
     if(NULL != this->joystickCallback)
     {
         // x: -128...0...127. y: 127...0...-128
-        int8_t x = ss.analogRead(JOYSTICK_H) / 4 - 128;
-        int8_t y = 127 - ss.analogRead(JOYSTICK_V) / 4;
+        int8_t x = (ss.analogRead(JOYSTICK_H) / 4 - 128) + joystick_x_correction;
+        int8_t y = (127 - ss.analogRead(JOYSTICK_V) / 4) + joystick_y_correction;
 
         if(abs(x) < this->joystick_zero_threshold)
         {

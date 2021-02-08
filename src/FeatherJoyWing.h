@@ -43,6 +43,8 @@ class FeatherJoyWing
         void registerButtonCallback(featherjoywing_button_callback callback) { this->buttonCallback = callback; };
         uint8_t joystick_zero_threshold;
         uint8_t joystick_react_threshold;
+        int8_t joystick_x_correction;
+        int8_t joystick_y_correction;
     private:
         Adafruit_seesaw &ss;
         featherjoywing_joystick_callback joystickCallback;
