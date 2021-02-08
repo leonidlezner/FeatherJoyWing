@@ -7,20 +7,20 @@
 #define JOYWING_ADDRESS SEESAW_ADDRESS
 #endif
 
-#define FJ_NUM_OF_BUTTONS   5
-
-#define BUTTON_RIGHT        6
-#define BUTTON_DOWN         7
-#define BUTTON_LEFT         9
-#define BUTTON_UP           10
-#define BUTTON_SEL          14
-
-#define JOYSTICK_H          3
-#define JOYSTICK_V          2
-
 #ifndef FEATHERJOYWING_IRQ_PIN
 #define FEATHERJOYWING_IRQ_PIN         6
 #endif
+
+const uint8_t FJ_NUM_OF_BUTTONS = 5;
+
+const uint32_t BUTTON_RIGHT = 6;
+const uint32_t BUTTON_DOWN  = 7;
+const uint32_t BUTTON_LEFT  = 9;
+const uint32_t BUTTON_UP    = 10;
+const uint32_t BUTTON_SEL   = 14;
+
+const uint8_t JOYSTICK_H = 3;
+const uint8_t JOYSTICK_V = 2;
 
 typedef struct __fj_button__
 {
@@ -37,8 +37,7 @@ class FeatherJoyWing
     public:
         FeatherJoyWing(Adafruit_seesaw &ss);
         ~FeatherJoyWing() {};
-        bool begin();
-        bool begin(uint32_t irq_pin, uint8_t joywing_address);
+        bool begin(uint32_t irq_pin = FEATHERJOYWING_IRQ_PIN, uint8_t joywing_address = JOYWING_ADDRESS);
         bool update();
         void registerJoystickCallback(featherjoywing_joystick_callback callback) { this->joystickCallback = callback; };
         void registerButtonCallback(featherjoywing_button_callback callback) { this->buttonCallback = callback; };

@@ -40,11 +40,6 @@ bool FeatherJoyWing::begin(uint32_t irq_pin, uint8_t joywing_address)
     return true;
 }
 
-bool FeatherJoyWing::begin()
-{
-    return this->begin(FEATHERJOYWING_IRQ_PIN, JOYWING_ADDRESS);
-}
-
 bool FeatherJoyWing::update()
 {
     if(NULL != this->joystickCallback)
