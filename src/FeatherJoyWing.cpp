@@ -5,8 +5,10 @@ static uint32_t FeatherJoyWing_Button_Mask = (1 << BUTTON_RIGHT) | (1 << BUTTON_
 
 
 FeatherJoyWing::FeatherJoyWing(Adafruit_seesaw &seasaw):
+    joystick_zero_threshold(5), joystick_react_threshold(2),
+    joystick_x_correction(0), joystick_y_correction(0),
     ss(seasaw), joystickCallback(NULL), buttonCallback(NULL),
-    joystick_zero_threshold(5), joystick_react_threshold(2)
+    last_x(0), last_y(0), irq_pin(0)
 {
     for(int i = 0; i < FJ_NUM_OF_BUTTONS; i++)
     {
@@ -23,6 +25,8 @@ FeatherJoyWing::FeatherJoyWing(Adafruit_seesaw &seasaw):
 
 bool FeatherJoyWing::begin(uint32_t irq_pin, uint8_t joywing_address)
 {
+    this->irq_pin = irq_pin;
+
     if (!this->ss.begin(joywing_address))
     {
         return false;
@@ -37,20 +41,13 @@ bool FeatherJoyWing::begin(uint32_t irq_pin, uint8_t joywing_address)
     return true;
 }
 
-bool FeatherJoyWing::begin()
-{
-    return this->begin(FEATHERJOYWING_IRQ_PIN, JOYWING_ADDRESS);
-}
-
 bool FeatherJoyWing::update()
 {
-    static int8_t last_x = 0, last_y = 0;
-
     if(NULL != this->joystickCallback)
     {
         // x: -128...0...127. y: 127...0...-128
-        int8_t x = ss.analogRead(JOYSTICK_H) / 4 - 128;
-        int8_t y = 127 - ss.analogRead(JOYSTICK_V) / 4;
+        int8_t x = (ss.analogRead(JOYSTICK_H) / 4 - 128) + joystick_x_correction;
+        int8_t y = (127 - ss.analogRead(JOYSTICK_V) / 4) + joystick_y_correction;
 
         if(abs(x) < this->joystick_zero_threshold)
         {
@@ -74,8 +71,7 @@ bool FeatherJoyWing::update()
 
     if(NULL != this->buttonCallback)
     {
-
-        if(!digitalRead(FEATHERJOYWING_IRQ_PIN))
+        if(!digitalRead(irq_pin))
         {
             uint32_t buttons_state = this->ss.digitalReadBulk(FeatherJoyWing_Button_Mask);
             
